@@ -7,7 +7,7 @@ import dts "github.com/mus-format/mus-dts-go"
 //
 // It contains methods to support all mus-dvs-go functionality.
 type MigrationVersion[V any] interface {
-	MigrateCurrentAndReliablyMarshalMUSMUS(v V, bs []byte) (abs []byte, n int,
+	MigrateCurrentAndReliablyMarshalMUS(v V, bs []byte) (abs []byte, n int,
 		err error)
 	MigrateCurrentAndMakeBSAndMarshalMUS(v V) (bs []byte, n int, err error)
 	UnmarshalAndMigrateOldMUS(bs []byte) (v V, n int, err error)
@@ -20,7 +20,7 @@ type Version[T any, V any] struct {
 	MigrateCurrent MigrateCurrent[V, T]
 }
 
-func (ver Version[T, V]) MigrateCurrentAndReliablyMarshalMUSMUS(v V,
+func (ver Version[T, V]) MigrateCurrentAndReliablyMarshalMUS(v V,
 	bs []byte) (
 	abs []byte, n int, err error) {
 	t, err := ver.MigrateCurrent(v)

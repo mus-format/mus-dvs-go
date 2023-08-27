@@ -15,8 +15,8 @@ type DVS[V any] struct {
 	reg Registry
 }
 
-// MakeBSAndMarshalMUS makes bs, migrates v to the version, specified by dtm,
-// marshal dtm and the resulting v version in the MUS format.
+// MakeBSAndMarshalMUS makes bs, migrates v to the version specified by dtm,
+// marshals dtm and the resulting v version to the MUS format.
 //
 // In addition to the created byte slice, returns the number of used bytes and
 // one of the ErrUnknownDTM or ErrWrongTypeVersion errors.
@@ -29,9 +29,9 @@ func (dvs DVS[V]) MakeBSAndMarshalMUS(dtm com.DTM, v V) (bs []byte, n int,
 	return mver.MigrateCurrentAndMakeBSAndMarshalMUS(v)
 }
 
-// ReliablyMarshalMUS migrates v to the version, specified by dtm, reliably (if
-// bs is too small it will create a new one) marshal dtm and the resulting v
-// version in the MUS format.
+// ReliablyMarshalMUS migrates v to the version specified by dtm, reliably (if
+// bs is too small creates a new one) marshals dtm and the resulting v version
+// to the MUS format.
 //
 // In addition to the received or created byte slice, returns the number of
 // used bytes and one of the ErrUnknownDTM or ErrWrongTypeVersion errors.
@@ -41,11 +41,11 @@ func (dvs DVS[V]) ReliablyMarshalMUS(dtm com.DTM, v V, bs []byte) (abs []byte,
 	if err != nil {
 		return
 	}
-	return mver.MigrateCurrentAndReliablyMarshalMUSMUS(v, bs)
+	return mver.MigrateCurrentAndReliablyMarshalMUS(v, bs)
 }
 
 // UnmarshalMUS unmarshals dtm and data from the MUS format, migrates data to
-// the version, specified by dtm.
+// the version specified by dtm.
 //
 // In addition to dtm and migrated data, returns the number of used bytes and
 // one of the ErrUnknownDTM or ErrWrongTypeVersion errors.
