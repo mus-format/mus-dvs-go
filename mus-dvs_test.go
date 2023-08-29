@@ -134,7 +134,7 @@ type Foo FooV2
 type Bar BarV2
 
 func TestDVS(t *testing.T) {
-	reg := NewRegistry([]TypeVersion{
+	reg := com.NewRegistry([]com.TypeVersion{
 		Version[FooV1, Foo]{
 			DTS: FooV1DTS,
 			MigrateOld: func(t FooV1) (v Foo, err error) {
@@ -200,7 +200,7 @@ func TestDVS(t *testing.T) {
 			var (
 				wantBS  []byte = nil
 				wantN          = 0
-				wantErr error  = ErrUnknownDTM
+				wantErr error  = com.ErrUnknownDTM
 			)
 			testMakeBSAndMarshalMUS[Foo](fooDVS, 5, Foo{}, wantBS, wantN, wantErr, t)
 		})
@@ -210,7 +210,7 @@ func TestDVS(t *testing.T) {
 			var (
 				wantBS  []byte = nil
 				wantN          = 0
-				wantErr error  = ErrWrongTypeVersion
+				wantErr error  = com.ErrWrongTypeVersion
 			)
 			testMakeBSAndMarshalMUS[Foo](fooDVS, BarV1DTM, Foo{}, wantBS, wantN,
 				wantErr,
@@ -246,7 +246,7 @@ func TestDVS(t *testing.T) {
 			var (
 				wantBS  []byte = nil
 				wantN          = 0
-				wantErr error  = ErrUnknownDTM
+				wantErr error  = com.ErrUnknownDTM
 			)
 			testReliablyMarshalMUS[Foo](fooDVS, 5, Foo{}, []byte{}, wantBS, wantN,
 				wantErr,
@@ -258,12 +258,11 @@ func TestDVS(t *testing.T) {
 			var (
 				wantBS  []byte = nil
 				wantN          = 0
-				wantErr error  = ErrWrongTypeVersion
+				wantErr error  = com.ErrWrongTypeVersion
 			)
 			testReliablyMarshalMUS[Foo](fooDVS, 2, Foo{}, []byte{}, wantBS, wantN,
 				wantErr,
 				t)
-
 		})
 
 	t.Run("Unmarshal should unmarshal data, if there is a correct registered data type in the bs",
@@ -290,7 +289,7 @@ func TestDVS(t *testing.T) {
 				wantDT  com.DTM = 5
 				wantFoo         = Foo{}
 				wantN           = 1
-				wantErr error   = ErrUnknownDTM
+				wantErr error   = com.ErrUnknownDTM
 			)
 			testUnmarshal[Foo](fooDVS, bs, wantDT, wantFoo, wantN, wantErr, t)
 		})
@@ -302,7 +301,7 @@ func TestDVS(t *testing.T) {
 				wantDT  com.DTM = 2
 				wantFoo         = Foo{}
 				wantN           = 1
-				wantErr error   = ErrWrongTypeVersion
+				wantErr error   = com.ErrWrongTypeVersion
 			)
 			testUnmarshal[Foo](fooDVS, bs, wantDT, wantFoo, wantN, wantErr, t)
 		})
@@ -317,10 +316,9 @@ func TestDVS(t *testing.T) {
 				wantErr error   = mus.ErrTooSmallByteSlice
 			)
 			testUnmarshal[Foo](fooDVS, bs, wantDT, wantFoo, wantN, wantErr, t)
-
 		})
 
-	t.Run("We should be able to use same registry for severl DVS",
+	t.Run("We should be able to use same registry for several DVS",
 		func(t *testing.T) {
 			var wantErr error = nil
 			_, _, err := fooDVS.MakeBSAndMarshalMUS(1, Foo{})

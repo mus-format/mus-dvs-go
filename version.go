@@ -1,6 +1,9 @@
 package dvs
 
-import dts "github.com/mus-format/mus-dts-go"
+import (
+	com "github.com/mus-format/common-go"
+	dts "github.com/mus-format/mus-dts-go"
+)
 
 // MigrationVersion represents a generic type version for Registry that can
 // be migrated.
@@ -16,8 +19,8 @@ type MigrationVersion[V any] interface {
 // Version is an implementation of the MigrationVersion interface.
 type Version[T any, V any] struct {
 	DTS            dts.DTS[T]
-	MigrateOld     MigrateOld[T, V]
-	MigrateCurrent MigrateCurrent[V, T]
+	MigrateOld     com.MigrateOld[T, V]
+	MigrateCurrent com.MigrateCurrent[V, T]
 }
 
 func (ver Version[T, V]) MigrateCurrentAndReliablyMarshalMUS(v V,

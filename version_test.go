@@ -11,23 +11,12 @@ import (
 
 func TestVersion(t *testing.T) {
 	var (
-		ErrUnsupportedFooV1 = errors.New("unsupported FooV1")
-		ErrUnsupportedFoo   = errors.New("unsupported Foo")
-		UnsupportedFoo      = Foo{num: 100}
-		ver                 = Version[FooV1, Foo]{
+		ver = Version[FooV1, Foo]{
 			DTS: FooV1DTS,
 			MigrateOld: func(t FooV1) (v Foo, err error) {
-				if t.num == 100 {
-					err = ErrUnsupportedFooV1
-					return
-				}
 				return Foo{num: t.num, str: "undefined"}, nil
 			},
 			MigrateCurrent: func(v Foo) (t FooV1, err error) {
-				if v.num == 100 {
-					err = ErrUnsupportedFoo
-					return
-				}
 				return FooV1{num: v.num}, nil
 			},
 		}
@@ -64,9 +53,15 @@ func TestVersion(t *testing.T) {
 			var (
 				wantBS  []byte = nil
 				wantN          = 0
-				wantErr error  = ErrUnsupportedFoo
+				wantErr        = errors.New("MigrateCurrent error")
+				ver            = Version[FooV1, Foo]{
+					MigrateCurrent: func(v Foo) (t FooV1, err error) {
+						err = wantErr
+						return
+					},
+				}
 			)
-			testMigrateCurrentAndReliablyMarshalMUS(ver, UnsupportedFoo, []byte{},
+			testMigrateCurrentAndReliablyMarshalMUS(ver, Foo{}, []byte{},
 				wantBS,
 				wantN,
 				wantErr,
@@ -89,10 +84,17 @@ func TestVersion(t *testing.T) {
 			var (
 				wantBS  []byte = nil
 				wantN          = 0
-				wantErr error  = ErrUnsupportedFoo
+				wantErr        = errors.New("MigrateCurrent error")
+				ver            = Version[FooV1, Foo]{
+					MigrateCurrent: func(v Foo) (t FooV1, err error) {
+						err = wantErr
+						return
+					},
+				}
 			)
-			testMigrateCurrentAndMakeBSAndMarshalMUS(ver, UnsupportedFoo, wantBS, wantN,
-				wantErr, t)
+			testMigrateCurrentAndMakeBSAndMarshalMUS(ver, Foo{}, wantBS, wantN,
+				wantErr,
+				t)
 		})
 
 	t.Run("UnmarshalAndMigrateOld should unmarshal data", func(t *testing.T) {

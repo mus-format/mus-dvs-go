@@ -6,13 +6,13 @@ import (
 )
 
 // New creates a new DVS.
-func New[V any](reg Registry) DVS[V] {
+func New[V any](reg com.Registry) DVS[V] {
 	return DVS[V]{reg}
 }
 
 // DVS provides versioning support for the mus-go serializer.
 type DVS[V any] struct {
-	reg Registry
+	reg com.Registry
 }
 
 // MakeBSAndMarshalMUS makes bs, migrates v to the version specified by dtm,
@@ -71,7 +71,7 @@ func (dvs DVS[V]) getMV(dtm com.DTM) (mver MigrationVersion[V], err error) {
 	}
 	mver, ok := tver.(MigrationVersion[V])
 	if !ok {
-		err = ErrWrongTypeVersion
+		err = com.ErrWrongTypeVersion
 		return
 	}
 	return
