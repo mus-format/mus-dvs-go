@@ -1,6 +1,6 @@
 # mus-dvs-go
 mus-dvs-go provides data versioning support for the [mus-go](https://github.com/mus-format/mus-go) 
-serializer. With the mus-dvs-go module we can do 2 things:
+serializer. With mus-dvs-go we can do 2 things:
 1. Marshal the current data version as if it was an old version.
 2. Unmarshal the old data version as if it was the current version.
 
