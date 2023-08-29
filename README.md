@@ -132,7 +132,7 @@ _, foo, _, err := FooDVS.UnmarshalMUS(bs[n:])
 ...
 ```
 Also, if the client expects to receive data, it must transmit a DTM to the 
-server. Which, in turn, will use this DTM to send back the version of the data 
+server. This DTM will be used on the server to send the version of the data 
 required by the client:
 ```go
 // Receive DTM from the client.
