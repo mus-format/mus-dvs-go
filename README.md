@@ -5,9 +5,11 @@ serializer. With mus-dvs-go we can do 2 things:
 2. Unmarshal the old data version as if it was the current version.
 
 # What is this for?
-In the client-server architecture, it would be great to use on the server side 
-only the current version of data, despite the fact that the server have to 
-support outdated clients - accept/send old versions of data from/to them.
+The MUS format proposes not to change the data, but to create a new version of 
+it. In this case, in the client-server architecture, it would be great to use on 
+the server side only the current version of data, despite the fact that the 
+server have to support outdated clients - accept/send old versions of data 
+from/to them.
 
 A similar situation arises when working with a storage that stores both 
 current and old versions of data. It would be great to always get only the 
