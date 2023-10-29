@@ -6,10 +6,10 @@ serializer. With mus-dvs-go we can do 2 things:
 
 # What is this for?
 The MUS format proposes not to change the data, but to create a new version of 
-it. In this case, in the client-server architecture, it would be great to use on 
-the server side only the current version of data, despite the fact that the 
-server have to support outdated clients - accept/send old versions of data 
-from/to them.
+it. With this approach, for example, in a client-server architecture, the server
+will have to work with a large number of different versions received from 
+outdated clients. Which is not very convenient. It would be much better if only 
+the current version was used.
 
 A similar situation arises when working with a storage that stores both 
 current and old versions of data. It would be great to always get only the 
