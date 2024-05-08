@@ -52,7 +52,7 @@ func (ver Version[T, V]) MigrateCurrentAndMakeBSAndMarshalMUS(v V) (
 
 func (ver Version[T, V]) UnmarshalAndMigrateOldMUS(bs []byte) (v V, n int,
 	err error) {
-	t, n, err := ver.DTS.UnmarshalDataMUS(bs)
+	t, n, err := ver.DTS.UnmarshalData(bs)
 	if err != nil {
 		return
 	}
