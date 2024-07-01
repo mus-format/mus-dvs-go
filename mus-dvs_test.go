@@ -49,7 +49,7 @@ type FooV2 struct {
 
 func MarshalFooV2MUS(foo FooV2, bs []byte) (n int) {
 	n = varint.MarshalInt(foo.num, bs)
-	n += ord.MarshalString(foo.str, bs[n:])
+	n += ord.MarshalString(foo.str, nil, bs[n:])
 	return
 }
 
@@ -59,14 +59,14 @@ func UnmarshalFooV2MUS(bs []byte) (foo FooV2, n int, err error) {
 		return
 	}
 	var n1 int
-	foo.str, n1, err = ord.UnmarshalString(bs[n:])
+	foo.str, n1, err = ord.UnmarshalString(nil, bs[n:])
 	n += n1
 	return
 }
 
 func SizeFooV2MUS(foo FooV2) (size int) {
 	size = varint.SizeInt(foo.num)
-	return size + ord.SizeString(foo.str)
+	return size + ord.SizeString(foo.str, nil)
 }
 
 var FooV2DTS = dts.New[FooV2](FooV1DTM,
@@ -104,7 +104,7 @@ type BarV2 struct {
 
 func MarshalBarV2MUS(bar BarV2, bs []byte) (n int) {
 	n = varint.MarshalInt(bar.num, bs)
-	n += ord.MarshalString(bar.str, bs[n:])
+	n += ord.MarshalString(bar.str, nil, bs[n:])
 	return
 }
 
@@ -114,14 +114,14 @@ func UnmarshalBarV2MUS(bs []byte) (bar BarV2, n int, err error) {
 		return
 	}
 	var n1 int
-	bar.str, n1, err = ord.UnmarshalString(bs[n:])
+	bar.str, n1, err = ord.UnmarshalString(nil, bs[n:])
 	n += n1
 	return
 }
 
 func SizeBarV2MUS(bar BarV2) (size int) {
 	size = varint.SizeInt(bar.num)
-	return size + ord.SizeString(bar.str)
+	return size + ord.SizeString(bar.str, nil)
 }
 
 var BarV2DTS = dts.New[BarV2](BarV1DTM,
