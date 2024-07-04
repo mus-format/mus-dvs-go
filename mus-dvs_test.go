@@ -24,36 +24,36 @@ type FooV1 struct {
 	num int
 }
 
-func MarshalFooV1MUS(foo FooV1, bs []byte) (n int) {
+func MarshalFooV1(foo FooV1, bs []byte) (n int) {
 	return varint.MarshalInt(foo.num, bs)
 }
 
-func UnmarshalFooV1MUS(bs []byte) (foo FooV1, n int, err error) {
+func UnmarshalFooV1(bs []byte) (foo FooV1, n int, err error) {
 	foo.num, n, err = varint.UnmarshalInt(bs)
 	return
 }
 
-func SizeFooV1MUS(foo FooV1) (size int) {
+func SizeFooV1(foo FooV1) (size int) {
 	return varint.SizeInt(foo.num)
 }
 
 var FooV1DTS = dts.New[FooV1](FooV1DTM,
-	mus.MarshallerFn[FooV1](MarshalFooV1MUS),
-	mus.UnmarshallerFn[FooV1](UnmarshalFooV1MUS),
-	mus.SizerFn[FooV1](SizeFooV1MUS))
+	mus.MarshallerFn[FooV1](MarshalFooV1),
+	mus.UnmarshallerFn[FooV1](UnmarshalFooV1),
+	mus.SizerFn[FooV1](SizeFooV1))
 
 type FooV2 struct {
 	num int
 	str string
 }
 
-func MarshalFooV2MUS(foo FooV2, bs []byte) (n int) {
+func MarshalFooV2(foo FooV2, bs []byte) (n int) {
 	n = varint.MarshalInt(foo.num, bs)
 	n += ord.MarshalString(foo.str, nil, bs[n:])
 	return
 }
 
-func UnmarshalFooV2MUS(bs []byte) (foo FooV2, n int, err error) {
+func UnmarshalFooV2(bs []byte) (foo FooV2, n int, err error) {
 	foo.num, n, err = varint.UnmarshalInt(bs)
 	if err != nil {
 		return
@@ -64,51 +64,51 @@ func UnmarshalFooV2MUS(bs []byte) (foo FooV2, n int, err error) {
 	return
 }
 
-func SizeFooV2MUS(foo FooV2) (size int) {
+func SizeFooV2(foo FooV2) (size int) {
 	size = varint.SizeInt(foo.num)
 	return size + ord.SizeString(foo.str, nil)
 }
 
 var FooV2DTS = dts.New[FooV2](FooV1DTM,
-	mus.MarshallerFn[FooV2](MarshalFooV2MUS),
-	mus.UnmarshallerFn[FooV2](UnmarshalFooV2MUS),
-	mus.SizerFn[FooV2](SizeFooV2MUS))
+	mus.MarshallerFn[FooV2](MarshalFooV2),
+	mus.UnmarshallerFn[FooV2](UnmarshalFooV2),
+	mus.SizerFn[FooV2](SizeFooV2))
 
 // -----------------------------------------------------------------------------
 type BarV1 struct {
 	num int
 }
 
-func MarshalBarV1MUS(bar BarV1, bs []byte) (n int) {
+func MarshalBarV1(bar BarV1, bs []byte) (n int) {
 	return varint.MarshalInt(bar.num, bs)
 }
 
-func UnmarshalBarV1MUS(bs []byte) (bar BarV1, n int, err error) {
+func UnmarshalBarV1(bs []byte) (bar BarV1, n int, err error) {
 	bar.num, n, err = varint.UnmarshalInt(bs)
 	return
 }
 
-func SizeBarV1MUS(bar BarV1) (size int) {
+func SizeBarV1(bar BarV1) (size int) {
 	return varint.SizeInt(bar.num)
 }
 
 var BarV1DTS = dts.New[BarV1](BarV1DTM,
-	mus.MarshallerFn[BarV1](MarshalBarV1MUS),
-	mus.UnmarshallerFn[BarV1](UnmarshalBarV1MUS),
-	mus.SizerFn[BarV1](SizeBarV1MUS))
+	mus.MarshallerFn[BarV1](MarshalBarV1),
+	mus.UnmarshallerFn[BarV1](UnmarshalBarV1),
+	mus.SizerFn[BarV1](SizeBarV1))
 
 type BarV2 struct {
 	num int
 	str string
 }
 
-func MarshalBarV2MUS(bar BarV2, bs []byte) (n int) {
+func MarshalBarV2(bar BarV2, bs []byte) (n int) {
 	n = varint.MarshalInt(bar.num, bs)
 	n += ord.MarshalString(bar.str, nil, bs[n:])
 	return
 }
 
-func UnmarshalBarV2MUS(bs []byte) (bar BarV2, n int, err error) {
+func UnmarshalBarV2(bs []byte) (bar BarV2, n int, err error) {
 	bar.num, n, err = varint.UnmarshalInt(bs)
 	if err != nil {
 		return
@@ -119,15 +119,15 @@ func UnmarshalBarV2MUS(bs []byte) (bar BarV2, n int, err error) {
 	return
 }
 
-func SizeBarV2MUS(bar BarV2) (size int) {
+func SizeBarV2(bar BarV2) (size int) {
 	size = varint.SizeInt(bar.num)
 	return size + ord.SizeString(bar.str, nil)
 }
 
 var BarV2DTS = dts.New[BarV2](BarV1DTM,
-	mus.MarshallerFn[BarV2](MarshalBarV2MUS),
-	mus.UnmarshallerFn[BarV2](UnmarshalBarV2MUS),
-	mus.SizerFn[BarV2](SizeBarV2MUS))
+	mus.MarshallerFn[BarV2](MarshalBarV2),
+	mus.UnmarshallerFn[BarV2](UnmarshalBarV2),
+	mus.SizerFn[BarV2](SizeBarV2))
 
 // -----------------------------------------------------------------------------
 type Foo FooV2
@@ -182,7 +182,7 @@ func TestDVS(t *testing.T) {
 	fooDVS := New[Foo](reg)
 	barDVS := New[Bar](reg)
 
-	t.Run("MakeBSAndMarshalMUS should marshal data, if it receives a correct registered data type",
+	t.Run("MakeBSAndMarshal should marshal data, if it receives a correct registered data type",
 		func(t *testing.T) {
 			var (
 				foo           = Foo{num: 5, str: "hello world"}
@@ -190,34 +190,34 @@ func TestDVS(t *testing.T) {
 				wantN         = 2
 				wantErr error = nil
 			)
-			testMakeBSAndMarshalMUS[Foo](fooDVS, FooV1DTM, foo, wantBS, wantN,
+			testMakeBSAndMarshal[Foo](fooDVS, FooV1DTM, foo, wantBS, wantN,
 				wantErr,
 				t)
 		})
 
-	t.Run("MakeBSAndMarshalMUS should return ErrUnknownDTM, if it receives an unknown data type",
+	t.Run("MakeBSAndMarshal should return ErrUnknownDTM, if it receives an unknown data type",
 		func(t *testing.T) {
 			var (
 				wantBS  []byte = nil
 				wantN          = 0
 				wantErr error  = com.ErrUnknownDTM
 			)
-			testMakeBSAndMarshalMUS[Foo](fooDVS, 5, Foo{}, wantBS, wantN, wantErr, t)
+			testMakeBSAndMarshal[Foo](fooDVS, 5, Foo{}, wantBS, wantN, wantErr, t)
 		})
 
-	t.Run("MakeBSAndMarshalMUS should return ErrWrongTypeVersion, if it receives an index of wrong type version",
+	t.Run("MakeBSAndMarshal should return ErrWrongTypeVersion, if it receives an index of wrong type version",
 		func(t *testing.T) {
 			var (
 				wantBS  []byte = nil
 				wantN          = 0
 				wantErr error  = com.ErrWrongTypeVersion
 			)
-			testMakeBSAndMarshalMUS[Foo](fooDVS, BarV1DTM, Foo{}, wantBS, wantN,
+			testMakeBSAndMarshal[Foo](fooDVS, BarV1DTM, Foo{}, wantBS, wantN,
 				wantErr,
 				t)
 		})
 
-	t.Run("ReliablyMarshalMUS should marshal data, if it receives a correct registered data type and too big bs",
+	t.Run("ReliablyMarshal should marshal data, if it receives a correct registered data type and too big bs",
 		func(t *testing.T) {
 			var (
 				foo           = Foo{num: 5, str: "hello world"}
@@ -226,10 +226,10 @@ func TestDVS(t *testing.T) {
 				wantN         = 2
 				wantErr error = nil
 			)
-			testReliablyMarshalMUS[Foo](fooDVS, 0, foo, bs, wantBS, wantN, wantErr, t)
+			testReliablyMarshal[Foo](fooDVS, 0, foo, bs, wantBS, wantN, wantErr, t)
 		})
 
-	t.Run("ReliablyMarshalMUS should marshal data, if it receives a correct registered data type and too small bs",
+	t.Run("ReliablyMarshal should marshal data, if it receives a correct registered data type and too small bs",
 		func(t *testing.T) {
 			var (
 				foo           = Foo{num: 5, str: "hello world"}
@@ -237,30 +237,30 @@ func TestDVS(t *testing.T) {
 				wantN         = 2
 				wantErr error = nil
 			)
-			testReliablyMarshalMUS[Foo](fooDVS, 0, foo, []byte{}, wantBS, wantN, wantErr,
+			testReliablyMarshal[Foo](fooDVS, 0, foo, []byte{}, wantBS, wantN, wantErr,
 				t)
 		})
 
-	t.Run("ReliablyMarshalMUS should return ErrUnknownDTM, if it receives an unknown data type",
+	t.Run("ReliablyMarshal should return ErrUnknownDTM, if it receives an unknown data type",
 		func(t *testing.T) {
 			var (
 				wantBS  []byte = nil
 				wantN          = 0
 				wantErr error  = com.ErrUnknownDTM
 			)
-			testReliablyMarshalMUS[Foo](fooDVS, 5, Foo{}, []byte{}, wantBS, wantN,
+			testReliablyMarshal[Foo](fooDVS, 5, Foo{}, []byte{}, wantBS, wantN,
 				wantErr,
 				t)
 		})
 
-	t.Run("ReliablyMarshalMUS should return ErrWrongTypeVersion, if it receives an index of wrong type version",
+	t.Run("ReliablyMarshal should return ErrWrongTypeVersion, if it receives an index of wrong type version",
 		func(t *testing.T) {
 			var (
 				wantBS  []byte = nil
 				wantN          = 0
 				wantErr error  = com.ErrWrongTypeVersion
 			)
-			testReliablyMarshalMUS[Foo](fooDVS, 2, Foo{}, []byte{}, wantBS, wantN,
+			testReliablyMarshal[Foo](fooDVS, 2, Foo{}, []byte{}, wantBS, wantN,
 				wantErr,
 				t)
 		})
@@ -270,8 +270,8 @@ func TestDVS(t *testing.T) {
 			var (
 				FooV1 = FooV1{num: 5}
 				bs    = func() []byte {
-					bs := make([]byte, FooV1DTS.SizeMUS(FooV1))
-					FooV1DTS.MarshalMUS(FooV1, bs)
+					bs := make([]byte, FooV1DTS.Size(FooV1))
+					FooV1DTS.Marshal(FooV1, bs)
 					return bs
 				}()
 				wantDT        = FooV1DTM
@@ -306,7 +306,7 @@ func TestDVS(t *testing.T) {
 			testUnmarshal[Foo](fooDVS, bs, wantDT, wantFoo, wantN, wantErr, t)
 		})
 
-	t.Run("If UnmarshalDataTypeMUS fails with an error, Unmarshal should return it",
+	t.Run("If UnmarshalDataType fails with an error, Unmarshal should return it",
 		func(t *testing.T) {
 			var (
 				bs              = []byte{}
@@ -321,11 +321,11 @@ func TestDVS(t *testing.T) {
 	t.Run("We should be able to use same registry for several DVS",
 		func(t *testing.T) {
 			var wantErr error = nil
-			_, _, err := fooDVS.MakeBSAndMarshalMUS(1, Foo{})
+			_, _, err := fooDVS.MakeBSAndMarshal(1, Foo{})
 			if err != wantErr {
 				t.Errorf("unexpected error, want '%v' actual '%v'", wantErr, err)
 			}
-			_, _, err = barDVS.MakeBSAndMarshalMUS(3, Bar{})
+			_, _, err = barDVS.MakeBSAndMarshal(3, Bar{})
 			if err != wantErr {
 				t.Errorf("unexpected error, want '%v' actual '%v'", wantErr, err)
 			}
@@ -339,7 +339,7 @@ func testUnmarshal[V any](dvs DVS[V], bs []byte, wantDT com.DTM,
 	wantErr error,
 	t *testing.T,
 ) {
-	dtm, v, n, err := dvs.UnmarshalMUS(bs)
+	dtm, v, n, err := dvs.Unmarshal(bs)
 	if err != wantErr {
 		t.Errorf("unexpected error, want '%v' actual '%v'", wantErr, err)
 	}
@@ -354,13 +354,13 @@ func testUnmarshal[V any](dvs DVS[V], bs []byte, wantDT com.DTM,
 	}
 }
 
-func testReliablyMarshalMUS[V any](dvs DVS[V], dtm com.DTM, v V, bs []byte,
+func testReliablyMarshal[V any](dvs DVS[V], dtm com.DTM, v V, bs []byte,
 	wantBS []byte,
 	wantN int,
 	wantErr error,
 	t *testing.T,
 ) {
-	bs, n, err := dvs.ReliablyMarshalMUS(dtm, v, bs)
+	bs, n, err := dvs.ReliablyMarshal(dtm, v, bs)
 	if err != wantErr {
 		t.Errorf("unexpected error, want '%v' actual '%v'", wantErr, err)
 	}
@@ -372,12 +372,12 @@ func testReliablyMarshalMUS[V any](dvs DVS[V], dtm com.DTM, v V, bs []byte,
 	}
 }
 
-func testMakeBSAndMarshalMUS[V any](dvs DVS[V], dtm com.DTM, v V, wantBS []byte,
+func testMakeBSAndMarshal[V any](dvs DVS[V], dtm com.DTM, v V, wantBS []byte,
 	wantN int,
 	wantErr error,
 	t *testing.T,
 ) {
-	bs, n, err := dvs.MakeBSAndMarshalMUS(dtm, v)
+	bs, n, err := dvs.MakeBSAndMarshal(dtm, v)
 	if err != wantErr {
 		t.Errorf("unexpected error, want '%v' actual '%v'", wantErr, err)
 	}

@@ -15,41 +15,40 @@ type DVS[V any] struct {
 	reg com.Registry
 }
 
-// MakeBSAndMarshalMUS makes bs, migrates v to the version specified by dtm,
-// marshals dtm and the resulting v version to the MUS format.
+// MakeBSAndMarshal makes bs, migrates v to the version specified by dtm, and
+// then marshals dtm + resulting v version.
 //
 // In addition to the created byte slice and the number of used bytes, it can
 // also return ErrUnknownDTM or ErrWrongTypeVersion.
-func (dvs DVS[V]) MakeBSAndMarshalMUS(dtm com.DTM, v V) (bs []byte, n int,
+func (dvs DVS[V]) MakeBSAndMarshal(dtm com.DTM, v V) (bs []byte, n int,
 	err error) {
 	mver, err := dvs.getMV(dtm)
 	if err != nil {
 		return
 	}
-	return mver.MigrateCurrentAndMakeBSAndMarshalMUS(v)
+	return mver.MigrateCurrentAndMakeBSAndMarshal(v)
 }
 
-// ReliablyMarshalMUS migrates v to the version specified by dtm, reliably (if
-// bs is too small creates a new one) marshals dtm and the resulting v version
-// to the MUS format.
+// ReliablyMarshal migrates v to the version specified by dtm, and then reliably
+// (if bs is too small creates a new one) marshals dtm + resulting v version.
 //
 // In addition to the received or created byte slice and the number of
 // used bytes, it can also return ErrUnknownDTM or ErrWrongTypeVersion.
-func (dvs DVS[V]) ReliablyMarshalMUS(dtm com.DTM, v V, bs []byte) (abs []byte,
+func (dvs DVS[V]) ReliablyMarshal(dtm com.DTM, v V, bs []byte) (abs []byte,
 	n int, err error) {
 	mver, err := dvs.getMV(dtm)
 	if err != nil {
 		return
 	}
-	return mver.MigrateCurrentAndReliablyMarshalMUS(v, bs)
+	return mver.MigrateCurrentAndReliablyMarshal(v, bs)
 }
 
-// UnmarshalMUS unmarshals dtm and data from the MUS format, migrates data to
-// the version specified by dtm.
+// Unmarshal unmarshals dtm + data, and then migrates data to the version
+// specified by dtm.
 //
 // In addition to dtm and migrated dataand the number of used bytes, it can
 // also return ErrUnknownDTM or ErrWrongTypeVersion.
-func (dvs DVS[V]) UnmarshalMUS(bs []byte) (dtm com.DTM, v V, n int, err error) {
+func (dvs DVS[V]) Unmarshal(bs []byte) (dtm com.DTM, v V, n int, err error) {
 	dtm, n, err = dts.UnmarshalDTM(bs)
 	if err != nil {
 		return
@@ -59,7 +58,7 @@ func (dvs DVS[V]) UnmarshalMUS(bs []byte) (dtm com.DTM, v V, n int, err error) {
 		return
 	}
 	var n1 int
-	v, n1, err = mver.UnmarshalAndMigrateOldMUS(bs[n:])
+	v, n1, err = mver.UnmarshalAndMigrateOld(bs[n:])
 	n += n1
 	return
 }

@@ -10,10 +10,10 @@ import (
 //
 // It contains methods to support all mus-dvs-go functionality.
 type MigrationVersion[V any] interface {
-	MigrateCurrentAndReliablyMarshalMUS(v V, bs []byte) (abs []byte, n int,
+	MigrateCurrentAndReliablyMarshal(v V, bs []byte) (abs []byte, n int,
 		err error)
-	MigrateCurrentAndMakeBSAndMarshalMUS(v V) (bs []byte, n int, err error)
-	UnmarshalAndMigrateOldMUS(bs []byte) (v V, n int, err error)
+	MigrateCurrentAndMakeBSAndMarshal(v V) (bs []byte, n int, err error)
+	UnmarshalAndMigrateOld(bs []byte) (v V, n int, err error)
 }
 
 // Version is an implementation of the MigrationVersion interface.
@@ -23,7 +23,7 @@ type Version[T any, V any] struct {
 	MigrateCurrent com.MigrateCurrent[V, T]
 }
 
-func (ver Version[T, V]) MigrateCurrentAndReliablyMarshalMUS(v V,
+func (ver Version[T, V]) MigrateCurrentAndReliablyMarshal(v V,
 	bs []byte) (
 	abs []byte, n int, err error) {
 	t, err := ver.MigrateCurrent(v)
@@ -40,7 +40,7 @@ func (ver Version[T, V]) MigrateCurrentAndReliablyMarshalMUS(v V,
 	return
 }
 
-func (ver Version[T, V]) MigrateCurrentAndMakeBSAndMarshalMUS(v V) (
+func (ver Version[T, V]) MigrateCurrentAndMakeBSAndMarshal(v V) (
 	bs []byte, n int, err error) {
 	t, err := ver.MigrateCurrent(v)
 	if err != nil {
@@ -50,7 +50,7 @@ func (ver Version[T, V]) MigrateCurrentAndMakeBSAndMarshalMUS(v V) (
 	return
 }
 
-func (ver Version[T, V]) UnmarshalAndMigrateOldMUS(bs []byte) (v V, n int,
+func (ver Version[T, V]) UnmarshalAndMigrateOld(bs []byte) (v V, n int,
 	err error) {
 	t, n, err := ver.DTS.UnmarshalData(bs)
 	if err != nil {
@@ -61,11 +61,11 @@ func (ver Version[T, V]) UnmarshalAndMigrateOldMUS(bs []byte) (v V, n int,
 }
 
 func (ver Version[T, V]) makeBSAndMarshal(t T) (bs []byte, n int) {
-	bs = make([]byte, ver.DTS.SizeMUS(t))
+	bs = make([]byte, ver.DTS.Size(t))
 	n = ver.marshal(t, bs)
 	return
 }
 
 func (ver Version[T, V]) marshal(t T, bs []byte) (n int) {
-	return ver.DTS.MarshalMUS(t, bs)
+	return ver.DTS.Marshal(t, bs)
 }

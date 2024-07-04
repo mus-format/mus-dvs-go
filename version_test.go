@@ -22,7 +22,7 @@ func TestVersion(t *testing.T) {
 		}
 	)
 
-	t.Run("MigrateCurrentAndReliablyMarshalMUS should marshal data if it receives too big bs",
+	t.Run("MigrateCurrentAndReliablyMarshal should marshal data if it receives too big bs",
 		func(t *testing.T) {
 			var (
 				foo           = Foo{num: 11}
@@ -31,11 +31,11 @@ func TestVersion(t *testing.T) {
 				wantN         = 2
 				wantErr error = nil
 			)
-			testMigrateCurrentAndReliablyMarshalMUS(ver, foo, bs, wantBS, wantN, wantErr,
+			testMigrateCurrentAndReliablyMarshal(ver, foo, bs, wantBS, wantN, wantErr,
 				t)
 		})
 
-	t.Run("MigrateCurrentAndReliablyMarshalMUS should marshal data if it receives too small bs",
+	t.Run("MigrateCurrentAndReliablyMarshal should marshal data if it receives too small bs",
 		func(t *testing.T) {
 			var (
 				foo           = Foo{num: 11}
@@ -44,11 +44,11 @@ func TestVersion(t *testing.T) {
 				wantN         = 2
 				wantErr error = nil
 			)
-			testMigrateCurrentAndReliablyMarshalMUS(ver, foo, bs, wantBS, wantN, wantErr,
+			testMigrateCurrentAndReliablyMarshal(ver, foo, bs, wantBS, wantN, wantErr,
 				t)
 		})
 
-	t.Run("If MigrateCurrent fails with an error, MigrateCurrentAndReliablyMarshalMUS should return it",
+	t.Run("If MigrateCurrent fails with an error, MigrateCurrentAndReliablyMarshal should return it",
 		func(t *testing.T) {
 			var (
 				wantBS  []byte = nil
@@ -61,14 +61,14 @@ func TestVersion(t *testing.T) {
 					},
 				}
 			)
-			testMigrateCurrentAndReliablyMarshalMUS(ver, Foo{}, []byte{},
+			testMigrateCurrentAndReliablyMarshal(ver, Foo{}, []byte{},
 				wantBS,
 				wantN,
 				wantErr,
 				t)
 		})
 
-	t.Run("MigrateCurrentAndMakeBSAndMarshalMUS should marshal data",
+	t.Run("MigrateCurrentAndMakeBSAndMarshal should marshal data",
 		func(t *testing.T) {
 			var (
 				foo           = Foo{num: 22}
@@ -76,10 +76,10 @@ func TestVersion(t *testing.T) {
 				wantN         = 2
 				wantErr error = nil
 			)
-			testMigrateCurrentAndMakeBSAndMarshalMUS(ver, foo, wantBS, wantN, wantErr, t)
+			testMigrateCurrentAndMakeBSAndMarshal(ver, foo, wantBS, wantN, wantErr, t)
 		})
 
-	t.Run("If MigrateCurrent fails with an error, MigrateCurrentAndMakeBSAndMarshalMUS should return it",
+	t.Run("If MigrateCurrent fails with an error, MigrateCurrentAndMakeBSAndMarshal should return it",
 		func(t *testing.T) {
 			var (
 				wantBS  []byte = nil
@@ -92,7 +92,7 @@ func TestVersion(t *testing.T) {
 					},
 				}
 			)
-			testMigrateCurrentAndMakeBSAndMarshalMUS(ver, Foo{}, wantBS, wantN,
+			testMigrateCurrentAndMakeBSAndMarshal(ver, Foo{}, wantBS, wantN,
 				wantErr,
 				t)
 		})
@@ -107,7 +107,7 @@ func TestVersion(t *testing.T) {
 		testUnmarshalAndMigrateOld[FooV1, Foo](ver, bs, wantFoo, wantErr, wantN, t)
 	})
 
-	t.Run("If UnmarshalDataMUS fails with an error, UnmarshalAndMigrateOld should return it",
+	t.Run("If UnmarshalData fails with an error, UnmarshalAndMigrateOld should return it",
 		func(t *testing.T) {
 			var (
 				bs            = []byte{}
@@ -121,14 +121,14 @@ func TestVersion(t *testing.T) {
 
 }
 
-func testMigrateCurrentAndReliablyMarshalMUS[T, V any](ver Version[T, V], v V,
+func testMigrateCurrentAndReliablyMarshal[T, V any](ver Version[T, V], v V,
 	bs []byte,
 	wantBS []byte,
 	wantN int,
 	wantErr error,
 	t *testing.T,
 ) {
-	bs, n, err := ver.MigrateCurrentAndReliablyMarshalMUS(v, bs)
+	bs, n, err := ver.MigrateCurrentAndReliablyMarshal(v, bs)
 	if err != wantErr {
 		t.Errorf("unexpected error, want '%v' actual '%v'", wantErr, err)
 	}
@@ -146,7 +146,7 @@ func testUnmarshalAndMigrateOld[T, V any](ver Version[T, V], bs []byte,
 	wantN int,
 	t *testing.T,
 ) {
-	v, n, err := ver.UnmarshalAndMigrateOldMUS(bs)
+	v, n, err := ver.UnmarshalAndMigrateOld(bs)
 	if err != wantErr {
 		t.Errorf("unexpected error, want '%v' actual '%v'", wantErr, err)
 	}
@@ -158,13 +158,13 @@ func testUnmarshalAndMigrateOld[T, V any](ver Version[T, V], bs []byte,
 	}
 }
 
-func testMigrateCurrentAndMakeBSAndMarshalMUS[T, V any](ver Version[T, V], v V,
+func testMigrateCurrentAndMakeBSAndMarshal[T, V any](ver Version[T, V], v V,
 	wantBS []byte,
 	wantN int,
 	wantErr error,
 	t *testing.T,
 ) {
-	bs, n, err := ver.MigrateCurrentAndMakeBSAndMarshalMUS(v)
+	bs, n, err := ver.MigrateCurrentAndMakeBSAndMarshal(v)
 	if err != wantErr {
 		t.Errorf("unexpected error, want '%v' actual '%v'", wantErr, err)
 	}

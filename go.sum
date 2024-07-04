@@ -1,9 +1,9 @@
-github.com/mus-format/common-go v0.0.0-20240427160332-fda7f59c1da2 h1:VlQlK11OtURHQ1VsdHcp9OFq56i8HEIHURgfEtP9Jek=
-github.com/mus-format/common-go v0.0.0-20240427160332-fda7f59c1da2/go.mod h1:1hTb8w0YdSGIOU6wNY+e9uXnDZ9OQnUivNtd8cPSdoU=
-github.com/mus-format/mus-dts-go v0.3.0 h1:s4Y/EyB1kcRsy+KGLgDcOuAmf5cWfjOH2uDK8a5c8i4=
-github.com/mus-format/mus-dts-go v0.3.0/go.mod h1:g2nfXM1v8h5WUqPivXv2zUYKsyVjFNQOCtukY7Z4Wz8=
-github.com/mus-format/mus-go v0.3.0 h1:OUBb/uWaaVPVpmyOo+DUVdjw5dkxQ1TCG3HO8q/Gyq8=
-github.com/mus-format/mus-go v0.3.0/go.mod h1:uRQAo0t2WbvKZ9Iz5wdZV4s5eq1LsTS9dSizQeV9s+M=
+github.com/mus-format/common-go v0.0.0-20240704141923-ea7d12c7eed3 h1:lq6NjZLxX27LghMjyTAZvt3c7Hi82VbhSuyTw3iYIDU=
+github.com/mus-format/common-go v0.0.0-20240704141923-ea7d12c7eed3/go.mod h1:1hTb8w0YdSGIOU6wNY+e9uXnDZ9OQnUivNtd8cPSdoU=
+github.com/mus-format/mus-dts-go v0.4.0 h1:4g1CguH5Rky0XCL3lVHsOTW3KW0DbrU12EbcfAaJ4hY=
+github.com/mus-format/mus-dts-go v0.4.0/go.mod h1:RvN6Z8yy3x9LhG0AVyjDj6MLL1GEbEizKSOlyTelTas=
+github.com/mus-format/mus-go v0.4.1 h1:16XN+hxKes4Tz/qPNeG5jztCniZXs575WHOD9LTB3LI=
+github.com/mus-format/mus-go v0.4.1/go.mod h1:hs04lVPvkj2d0RC1k75yARNd3ZlVPpljAW64LwkgMJk=
 github.com/ymz-ncnk/mok v0.2.0 h1:4xOvkG0EXDlr05ZTSeRzM2q5mbyNbALRqRoI+cTwUyc=
 golang.org/x/exp v0.0.0-20230321023759-10a507213a29 h1:ooxPy7fPvB4kwsA2h+iBNHkAbp/4JxTSwCmvdjEYmug=
 golang.org/x/exp v0.0.0-20230321023759-10a507213a29/go.mod h1:CxIveKay+FTh1D0yPZemJVgC/95VzuuOLq5Qi4xnoYc=
